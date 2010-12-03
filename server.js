@@ -22,8 +22,6 @@ http.createServer(function (request, response) {
 				{'host': 'github.com'});
 			
 			ghRequest.on('response', function(ghr) {
-				ghr.setEncoding('utf8');
-				
 				response.writeHead(200, {'Content-Type': 'text/html'});
 				response.write('<html><head><title>GitHub Repository Commit Monitor</title></head><body>'
 					+ '<h1>GitHub Repository Commit Monitor</h1>'
