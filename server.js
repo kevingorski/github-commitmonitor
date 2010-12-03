@@ -14,14 +14,14 @@ http.createServer(function (request, response) {
 		request.on('end', function() {
 			var posted = querystring.parse(requestBody);
 			var github = http.createClient(80, 'github.com');
-			var request = github.request('GET', 
+			var ghRequest = github.request('GET', 
 				'/api/v2/json/commits/list/'
 					+ posted.UserName + '/'
 					+ posted.Repository + '/'
 					+ posted.Branch,
 				{'host': 'github.com'});
 			
-			request.on('response', function(ghr) {
+			ghRequest.on('response', function(ghr) {
 				ghr.setEncoding('utf8');
 				
 				response.writeHead(200, {'Content-Type': 'text/html'});
@@ -65,13 +65,13 @@ http.createServer(function (request, response) {
 						response.end('</ul></body></html>');
 					});
 				} else {
-					response.write('<h2>Failed</h2>');
+					response.write('<h2>That user, repository, or branch doesn\'t seem to exist.</h2>');
 					
 					response.end(utils.inspect(posted));
 				}
 			});
 			
-			request.end();
+			ghRequest.end();
 		});
 		
 	} else {
