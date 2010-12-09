@@ -63,9 +63,7 @@ http.createServer(function (request, response) {
 						response.end('</ul></body></html>');
 					});
 				} else {
-					response.write('<h2>That user, repository, or branch doesn\'t seem to exist.</h2>');
-					
-					response.end(utils.inspect(posted));
+					response.end('<h2>That user, repository, or branch doesn\'t seem to exist.</h2></body></html>');
 				}
 			});
 			
