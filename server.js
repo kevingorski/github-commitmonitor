@@ -1,8 +1,9 @@
 var http = require('http');
 var querystring = require('querystring');
 var utils = require('utils');
+var connect = require('connect');
 
-http.createServer(function (request, response) {
+connect.createServer(function (request, response) {
 	
 	if(request.method === 'POST') {
 		var requestBody = '';
