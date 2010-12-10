@@ -84,12 +84,13 @@ var handleGet = function(request, response) {
 			+ '</body></html>');
 };
 
-connect.createServer(function (request, response) {
-	if(request.method === 'POST') {
-		handlePost(request, response);
-	} else {
-		handleGet(request, response);
-	}
-}).listen(8124);
+var server = connect.createServer();
+
+server.use(connect.router(function(app) {
+	app.get('/', handleGet);
+	app.post('/', handlePost);
+}));
+
+server.listen(8124);
 
 console.log('Server running at http://127.0.0.1:8124/');
