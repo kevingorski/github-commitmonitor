@@ -3,8 +3,7 @@ var utils = require('utils');
 var connect = require('connect');
 
 var handlePost = function(request, response) {
-	var requestBody = request.body;
-	var posted = requestBody;
+	var posted = request.body;
 	var github = http.createClient(80, 'github.com');
 	var ghRequest = github.request('GET', 
 		'/api/v2/json/commits/list/'
@@ -15,7 +14,7 @@ var handlePost = function(request, response) {
 	
 	ghRequest.on('response', function(ghr) {
 		response.writeHead(200, {'Content-Type': 'text/html'});
-		response.write('<html><head><title>GitHub Repository Commit Monitor</title></head><body>'
+		response.write('<html><head><title>GitHub Repository Commit Monitor</title><link rel="stylesheet" href="style.css" ></head><body>'
 			+ '<h1>GitHub Repository Commit Monitor</h1>'
 			+ '<form method="post" action="." enctype="application/x-www-form-urlencoded"><fieldset>'
 			+ '<div><label for="UserName">User Name:</label><input type="text" id="UserName" name="UserName" '
@@ -65,7 +64,9 @@ var handlePost = function(request, response) {
 var handleGet = function(request, response) {
 	// Write out the empty form
 	response.writeHead(200, {'Content-Type': 'text/html'});
-	response.end('<html><head><title>GitHub Repository Commit Monitor</title></head><body>'
+	response.end('<html><head>'
+		+ '<title>GitHub Repository Commit Monitor</title>'
+		+ '<link rel="stylesheet" href="style.css" ></head><body>'
 		+ '<h1>GitHub Repository Commit Monitor</h1>'
 		+ '<form method="post" action="." enctype="application/x-www-form-urlencoded"><fieldset>'
 		+ '<div><label for="UserName">User Name:</label><input type="text" id="UserName" name="UserName" /></div>'
@@ -80,9 +81,10 @@ var server = connect.createServer();
 
 server.use('/',
 	connect.bodyDecoder(),
+	connect.staticProvider({ root: __dirname + '/public' }),
 	connect.router(function(app) {
-		app.get('', handleGet);
-		app.post('', handlePost);
+		app.get('/', handleGet);
+		app.post('/', handlePost);
 	})
 );
 

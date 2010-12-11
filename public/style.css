@@ -1,0 +1,55 @@
+html, body { margin: 0; padding: 1em; }
+
+body, input { font-family: helvetica, arial, freesans, clean, sans-serif; }
+h1 {  }
+
+fieldset { display: inline; padding: 2em; }
+
+fieldset div {
+	clear: both;
+	margin-bottom: 0.5em;
+}
+
+label { 
+	display: block;
+	float: left;
+	line-height: 2.5em;
+	width: 8em;
+}
+
+input { 
+	padding: 0.5em;
+}
+
+input[type=text] {
+	display: block;
+	font-size: 1em;
+}
+
+input[type=button],
+input[type=submit] {
+	clear: both;
+	background: #EEE;
+	border-radius: .5em;
+	-moz-border-radius: .5em;
+	font-size: 1em;
+	margin-left: 8em;
+}
+
+ul {
+	background: #DDD;
+	padding: 1em 0 1em 2em;
+}
+
+ul li {
+	list-style: none;
+}
+
+ul li:hover {
+	background: #EEE;
+}
+
+ul li a {
+	font-size: .75em;
+	font-family: monospace;
+}
