@@ -1,0 +1,1 @@
+GitHub Repository Monitor is an example project for progressively teaching how to use Node.js as a web server.
