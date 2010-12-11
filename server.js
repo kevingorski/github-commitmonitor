@@ -1,6 +1,24 @@
 var http = require('http');
 var utils = require('utils');
 var connect = require('connect');
+var MemoryStore = require('connect/middleware/session/memory');
+
+var displayHistory = function(request, response) {
+	if(request.session.history.length) {
+		response.write('<h3>Recently Viewed</h3><ol>');
+		
+		for(var i = 0; i < request.session.history.length; i++) {
+			var item = request.session.history[i];
+			
+			response.write('<li><a href="http://github.com/' 
+				+ item.UserName + '/' 
+				+ item.Repository + '" >' 
+				+ item.UserName + '/' + item.Repository + '</a></li>');
+		}
+		
+		response.write('</ol>');
+	}
+};
 
 var handlePost = function(request, response) {
 	var posted = request.body;
@@ -23,11 +41,19 @@ var handlePost = function(request, response) {
 			+ 'value="' + posted.Repository + '" /></div>'
 			+ '<div><label for="Branch">Branch:</label><input type="text" id="Branch" name="Branch" '
 			+ 'value="' + posted.Branch + '"/></div>'
-			+ '<div><input id="ListCommits" type="submit" value="List Commits" /></div>'
+			+ '<input id="ListCommits" type="submit" value="List Commits" />'
 			+ '</fieldset></form>');
+		
+		displayHistory(request, response);
 		
 		if(ghr.statusCode == 200) {
 			var githubData = '';
+			var history = request.session.history;
+			
+			history.unshift(posted);
+			
+			if(history.length > 3)
+				history.pop();
 			
 			ghr.on('data', function(chunk) {
 				githubData += chunk;
@@ -62,9 +88,12 @@ var handlePost = function(request, response) {
 };
 
 var handleGet = function(request, response) {
+	if(!request.session.history)
+		request.session.history = [];
+	
 	// Write out the empty form
 	response.writeHead(200, {'Content-Type': 'text/html'});
-	response.end('<html><head>'
+	response.write('<html><head>'
 		+ '<title>GitHub Repository Commit Monitor</title>'
 		+ '<link rel="stylesheet" href="style.css" ></head><body>'
 		+ '<h1>GitHub Repository Commit Monitor</h1>'
@@ -72,15 +101,22 @@ var handleGet = function(request, response) {
 		+ '<div><label for="UserName">User Name:</label><input type="text" id="UserName" name="UserName" /></div>'
 		+ '<div><label for="Repository">Repository:</label><input type="text" id="Repository" name="Repository" /></div>'
 		+ '<div><label for="Branch">Branch:</label><input type="text" id="Branch" name="Branch" value="master" /></div>'
-		+ '<div><input id="ListCommits" type="submit" value="List Commits" /></div>'
-		+ '</fieldset></form>'
-		+ '</body></html>');
+		+ '<input id="ListCommits" type="submit" value="List Commits" />'
+		+ '</fieldset></form>');
+		
+	displayHistory(request, response);
+	
+	response.end('</body></html>');
 };
 
 var server = connect.createServer();
 
 server.use('/',
 	connect.bodyDecoder(),
+	connect.cookieDecoder(),
+	connect.session({ 
+		store: new MemoryStore({ reapInterval: 60000, maxAge:300000 })
+	}),
 	connect.staticProvider({ root: __dirname + '/public', cache: true }),
 	connect.router(function(app) {
 		app.get('/', handleGet);
