@@ -81,7 +81,7 @@ var server = connect.createServer();
 
 server.use('/',
 	connect.bodyDecoder(),
-	connect.staticProvider({ root: __dirname + '/public' }),
+	connect.staticProvider({ root: __dirname + '/public', cache: true }),
 	connect.router(function(app) {
 		app.get('/', handleGet);
 		app.post('/', handlePost);
