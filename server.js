@@ -1,7 +1,5 @@
 var http = require('http');
-var utils = require('utils');
-var connect = require('connect');
-var MemoryStore = require('connect/middleware/session/memory');
+var express = require('express');
 
 var displayHistory = function(request, response) {
 	if(request.session.history.length) {
@@ -109,16 +107,12 @@ var handleGet = function(request, response) {
 	response.end('</body></html>');
 };
 
-var server = connect.createServer();
-
-server.use('/',
-	connect.bodyDecoder(),
-	connect.cookieDecoder(),
-	connect.session({ 
-		store: new MemoryStore({ reapInterval: 60000, maxAge:300000 })
-	}),
-	connect.staticProvider({ root: __dirname + '/public', cache: true }),
-	connect.router(function(app) {
+var server = express.createServer(
+	express.bodyDecoder(),
+	express.cookieDecoder(),
+	express.session(),
+	express.staticProvider({ root: __dirname + '/public', cache: true }),
+	express.router(function(app) {
 		app.get('/', handleGet);
 		app.post('/', handlePost);
 	})
