@@ -1,0 +1,38 @@
+form(method="post", action=".", enctype="application/x-www-form-urlencoded")
+	fieldset
+		div
+			label(for="UserName") User Name:
+			- if (posted.UserName)
+				input(type="text", id="UserName", name="UserName", value=posted.UserName)
+			- else
+				input(type="text", id="UserName", name="UserName")
+		div
+			label(for="Repository") Repository:
+			- if (posted.Repository)
+				input(type="text", id="Repository", name="Repository", value=posted.Repository)
+			- else
+				input(type="text", id="Repository", name="Repository")
+		div
+			label(for="Branch") Branch:
+			- if (posted.Branch)
+				input(type="text", id="Branch", name="Branch", value=posted.Branch)
+			- else
+				input(type="text", id="Branch", name="Branch")
+		input(id="ListCommits", type="submit", value="List Commits")
+
+- if(history.length)
+	h3 Recently Viewed
+	ol
+		- each item in history
+			li
+				a(href="http://github.com/" + item.UserName + "/" + item.Repository) 
+					| #{item.UserName}/#{item.Repository}
+
+- if(commits.length)
+	a(href="http://github.com/" + posted.UserName + "/" + posted.Repository)
+		| #{posted.UserName}/#{posted.Repository}
+	ul
+		- each commit in commits
+			li
+				a(href="http://github.com" + commit.url) #{commit.committed_date} 
+				\- #{commit.author.name} : #{commit.message}
