@@ -24,6 +24,10 @@ form(method="post", action=".", enctype="application/x-www-form-urlencoded")
 	h3 Recently Viewed
 	ol!= partial('history', {collection: history, as: global })
 
+- var messages = flashMessages();
+- each message in messages
+	h2 #{message}
+
 - if(commits.length)
 	a(href="http://github.com/" + posted.UserName + "/" + posted.Repository)
 		| #{posted.UserName}/#{posted.Repository}

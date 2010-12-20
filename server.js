@@ -28,10 +28,11 @@ var handlePost = function(request, response) {
 			ghr.on('end', function() {
 				var data = JSON.parse(githubData);
 				
-				response.render('index', { locals: { history: history, posted: posted, commits: data.commits }});
+				response.render('index', { locals: { posted: posted, commits: data.commits }});
 			});
 		} else {
-			response.render('index', { locals: { history: history, posted: posted, commits: [] }});
+			request.flash('error', 'That user, repository, or branch doesn\'t seem to exist.');
+			response.render('index', { locals: { posted: posted, commits: [] }});
 		}
 	});
 	
@@ -42,7 +43,7 @@ var handleGet = function(request, response) {
 	if(!request.session.history)
 		request.session.history = [];
 	
-	response.render('index', { locals: { posted: { Branch: 'master'}, history: request.session.history, commits: []}});
+	response.render('index', { locals: { posted: { Branch: 'master'}, commits: []}});
 };
 
 var server = express.createServer(
@@ -52,6 +53,14 @@ var server = express.createServer(
 	express.staticProvider({ root: __dirname + '/public', cache: true })
 );
 
+server.dynamicHelpers({ 
+	flashMessages: function(request) { 
+		return function() {
+			return request.flash('error');
+		};
+	},
+	history: function(request) { return request.session.history; }
+});
 server.set('views', __dirname + '/views');
 server.set('view engine', 'jade');
 
