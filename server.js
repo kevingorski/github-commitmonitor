@@ -1,5 +1,6 @@
-var http = require('http');
-var express = require('express');
+var http = require('http'),
+	express = require('express'),
+	assetManager = require('connect-assetmanager');
 
 var handlePost = function(request, response) {
 	var posted = request.body;
@@ -50,9 +51,16 @@ var server = express.createServer(
 	express.bodyDecoder(),
 	express.cookieDecoder(),
 	express.session(),
-	express.staticGzip({ root: __dirname + '/public', compress: ['text/css', 'text/html', 'application/javascript']}),
-	express.staticProvider({ root: __dirname + '/public', cache: true }),
-	express.gzip()
+	express.gzip(),
+	assetManager({ 
+		css: { 
+			dataType: 'css',
+			path: __dirname + '/public/',
+			files: ['style.css'],
+			route: /\/style.css/
+		}
+	}),
+	express.staticProvider({ root: __dirname + '/public', cache: true })
 );
 
 server.dynamicHelpers({ 
