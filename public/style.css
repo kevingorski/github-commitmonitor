@@ -3,7 +3,7 @@ html, body { margin: 0; padding: 1em; }
 body, input { font-family: helvetica, arial, freesans, clean, sans-serif; }
 h1 {  }
 
-fieldset { display: inline; padding: 2em; }
+fieldset { padding: 2em; width: 24em; }
 
 fieldset div {
 	clear: both;
