@@ -3,7 +3,7 @@ var express = require('express');
 
 var handlePost = function(request, response) {
 	var posted = request.body;
-	var history = request.session.history;
+	var history = request.session.history || [];
 	var github = http.createClient(80, 'github.com');
 	var ghRequest = github.request('GET', 
 		'/api/v2/json/commits/list/'
@@ -50,7 +50,9 @@ var server = express.createServer(
 	express.bodyDecoder(),
 	express.cookieDecoder(),
 	express.session(),
-	express.staticProvider({ root: __dirname + '/public', cache: true })
+	express.staticGzip({ root: __dirname + '/public', compress: ['text/css', 'text/html', 'application/javascript']}),
+	express.staticProvider({ root: __dirname + '/public', cache: true }),
+	express.gzip()
 );
 
 server.dynamicHelpers({ 
