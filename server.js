@@ -50,18 +50,24 @@ var handleGet = function(request, response) {
 var server = express.createServer(
 	express.bodyDecoder(),
 	express.cookieDecoder(),
-	express.session(),
-	express.gzip(),
-	assetManager({ 
+	express.session());
+	
+server.configure('development', function() {
+	server.use(express.staticProvider({ root: __dirname + '/public', cache: true }));
+});
+	
+server.configure('production', function() {
+	server.use(express.gzip());
+	server.use(assetManager({ 
 		css: { 
 			dataType: 'css',
 			path: __dirname + '/public/',
 			files: ['style.css'],
 			route: /\/style.css/
 		}
-	}),
-	express.staticProvider({ root: __dirname + '/public', cache: true })
-);
+	}));
+	server.use(express.staticProvider({ root: __dirname + '/public', cache: true }));
+});
 
 server.dynamicHelpers({ 
 	flashMessages: function(request) { 
