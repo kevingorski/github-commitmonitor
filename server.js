@@ -53,6 +53,7 @@ var server = express.createServer(
 	express.session());
 	
 server.configure('development', function() {
+	server.use(express.logger());
 	server.use(express.staticProvider({ root: __dirname + '/public', cache: true }));
 });
 	
