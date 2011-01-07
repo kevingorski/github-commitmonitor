@@ -81,6 +81,10 @@ server.configure('production', function() {
 	}));
 	server.use(express.staticProvider({ root: __dirname + '/public', cache: true }));
 });
+	
+server.error(function(err, req, res){
+	log.error(err);
+});
 
 server.dynamicHelpers({ 
 	flashMessages: function(request) { 
