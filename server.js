@@ -1,17 +1,22 @@
 var http = require('http'),
 	express = require('express'),
-	assetManager = require('connect-assetmanager');
+	assetManager = require('connect-assetmanager'),
+	fs = require('fs'),
+	Log = require('log'),
+	log = new Log();
 
 var handlePost = function(request, response) {
 	var posted = request.body;
 	var history = request.session.history || [];
 	var github = http.createClient(80, 'github.com');
+	var repoPath = posted.UserName + '/'
+		+ posted.Repository + '/'
+		+ posted.Branch;
 	var ghRequest = github.request('GET', 
-		'/api/v2/json/commits/list/'
-			+ posted.UserName + '/'
-			+ posted.Repository + '/'
-			+ posted.Branch,
+		'/api/v2/json/commits/list/' + repoPath,
 		{'host': 'github.com'});
+	
+	log.notice('[GitHub] Searching for ' + repoPath);
 	
 	ghRequest.on('response', function(ghr) {
 		if(ghr.statusCode == 200) {
@@ -34,6 +39,8 @@ var handlePost = function(request, response) {
 		} else {
 			request.flash('error', 'That user, repository, or branch doesn\'t seem to exist.');
 			response.render('index', { locals: { posted: posted, commits: [] }});
+			
+			log.warning('[GitHub] Response ' + ghr.statusCode + ' for ' + repoPath);
 		}
 	});
 	
@@ -53,11 +60,16 @@ var server = express.createServer(
 	express.session());
 	
 server.configure('development', function() {
+	log.level = Log.INFO;
+	
 	server.use(express.logger());
 	server.use(express.staticProvider({ root: __dirname + '/public', cache: true }));
 });
 	
 server.configure('production', function() {
+	log.level = Log.WARNING;
+	log.stream = fs.createWriteStream('GitHubCommitMonitor.log', { flags: 'a' });
+	
 	server.use(express.gzip());
 	server.use(assetManager({ 
 		css: { 
@@ -86,4 +98,4 @@ server.post('/', handlePost);
 
 server.listen(8124);
 
-console.log('Server running at http://127.0.0.1:8124/');
+log.info('Server running at http://127.0.0.1:8124/');
