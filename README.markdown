@@ -7,3 +7,4 @@ The code for each article is tagged with the title of that article.
 2. [Leveraging Connect](http://nodenerd.tumblr.com/post/2178460914/leveraging-connect) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Leveraging_Connect)
 3. [Enter the Express lane](http://nodenerd.tumblr.com/post/2393511732/enter-the-express-lane) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Enter_the_Express_lane)
 4. [Environmental Concerns - Part 1](http://nodenerd.tumblr.com/post/2520686085/environmental-concerns-part-1) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Environmental_Concerns_-_Part_1)
+5. [Environmental Concerns - Part 2](http://nodenerd.tumblr.com/post/2633372931/environmental-concerns-part-2) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Environmental_Concerns_-_Part_2)
