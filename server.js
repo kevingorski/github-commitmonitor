@@ -94,7 +94,7 @@ server.dynamicHelpers({
 			return request.flash('error');
 		};
 	},
-	history: function(request) { return request.session.history; }
+	history: function(request) { return request.session.history || []; }
 });
 server.set('views', __dirname + '/views');
 server.set('view engine', 'jade');
