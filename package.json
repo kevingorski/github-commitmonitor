@@ -1,0 +1,18 @@
+{
+  "name": "github-commitmonitor",
+  "description": "Lists commit messages from a public GitHub repository",
+  "version": "0.0.0",
+  "homepage": "https://github.com/kevingorski/github-commitmonitor",
+  "author": "Kevin Gorski <kevin.gorski@gmail.com> (http://kevingorski.com)",
+  "directories": {
+    "lib": ""
+  },
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {
+	 "express": "*",
+	 "connect-assetmanager": "*",
+	 "log": "*"
+  }
+}
