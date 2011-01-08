@@ -12,6 +12,7 @@
   },
   "dependencies": {
 	 "express": "*",
+	 "jade": "*",
 	 "connect-assetmanager": "*",
 	 "log": "*"
   }
