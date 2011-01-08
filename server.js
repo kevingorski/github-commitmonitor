@@ -68,7 +68,7 @@ server.configure('development', function() {
 	
 server.configure('production', function() {
 	log.level = Log.WARNING;
-	log.stream = fs.createWriteStream('GitHubCommitMonitor.log', { flags: 'a' });
+	log.stream = fs.createWriteStream('log/GitHubCommitMonitor.log', { flags: 'a' });
 	
 	server.use(express.gzip());
 	server.use(assetManager({ 
