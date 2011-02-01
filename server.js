@@ -57,7 +57,7 @@ var handleGet = function(request, response) {
 var server = express.createServer(
 	express.bodyDecoder(),
 	express.cookieDecoder(),
-	express.session());
+	express.session({ secret: 'GHCMNNFTW'}));
 	
 server.configure('development', function() {
 	log.level = Log.INFO;
