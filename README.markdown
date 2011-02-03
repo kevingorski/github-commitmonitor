@@ -1,5 +1,7 @@
 GitHub Commit Monitor is an example project for progressively teaching how to use Node.js as a web server for the [Node Nerd blog](http://nodenerd.tumblr.com/).
 
+The latest version of the code is running at [http://githubcm.duostack.net/](http://githubcm.duostack.net/).
+
 The code for each article is tagged with the title of that article.
 
 ##Articles
@@ -8,3 +10,4 @@ The code for each article is tagged with the title of that article.
 3. [Enter the Express lane](http://nodenerd.tumblr.com/post/2393511732/enter-the-express-lane) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Enter_the_Express_lane)
 4. [Environmental Concerns - Part 1](http://nodenerd.tumblr.com/post/2520686085/environmental-concerns-part-1) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Environmental_Concerns_-_Part_1)
 5. [Environmental Concerns - Part 2](http://nodenerd.tumblr.com/post/2633372931/environmental-concerns-part-2) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Environmental_Concerns_-_Part_2)
+6. [Environmental Concerns - Part 3](http://nodenerd.tumblr.com/post/3094182598/environmental-concerns-part-3) - No code!
