@@ -1,6 +1,7 @@
 var http = require('http'),
 	express = require('express'),
 	assetManager = require('connect-assetmanager'),
+	CookieStore = require('cookie-sessions'),
 	fs = require('fs'),
 	Log = require('log'),
 	log = new Log();
@@ -56,12 +57,13 @@ var handleGet = function(request, response) {
 
 var server = express.createServer(
 	express.bodyDecoder(),
-	express.cookieDecoder(),
-	express.session({ secret: 'GHCMNNFTW'}));
+	express.cookieDecoder()
+);
 	
 server.configure('development', function() {
 	log.level = Log.INFO;
-	
+
+	server.use(CookieStore({secret: 'GHCMNNFTW'}));
 	server.use(express.logger());
 	server.use(express.staticProvider({ root: __dirname + '/public', cache: true }));
 });
