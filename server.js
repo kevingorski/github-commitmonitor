@@ -73,24 +73,10 @@ server.configure('production', function() {
 	log.level = Log.WARNING;
 	log.stream = fs.createWriteStream('log/GitHubCommitMonitor.log', { flags: 'a' });
 
-	var databaseURI = process.env['DUOSTACK_DB_MONGODB'];
-	// ,
-	// 		parts = databaseURI.split(/[\/:@]/),
-	// 		dbname = parts[7],
-	// 		host = parts[5],
-	// 		port = parts[6],
-	// 		username = parts[3],
-	// 		password = parts[4];
-	
 	server.use(express.session({
 		secret: 'GHCMNNFTW',
 		store: MongoDBStore({
-			url: databaseURI,
-			// dbname: dbname,
-			// host: host,
-			// port: port,
-			// username: username,
-			// password: password,
+			url: process.env['DUOSTACK_DB_MONGODB'],
 			maxAge: 300000
 		})
 	}));
