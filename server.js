@@ -2,7 +2,7 @@ var http = require('http'),
 	express = require('express'),
 	assetManager = require('connect-assetmanager'),
 	CookieStore = require('cookie-sessions'),
-	RedisStore = require('connect-redis'),
+	MongoDBStore = require('connect-mongodb'),
 	fs = require('fs'),
 	Log = require('log'),
 	log = new Log();
@@ -72,10 +72,27 @@ server.configure('development', function() {
 server.configure('production', function() {
 	log.level = Log.WARNING;
 	log.stream = fs.createWriteStream('log/GitHubCommitMonitor.log', { flags: 'a' });
+
+	//	mongodb://pnpcxfmwhars:cajpwfkeiiat@10.10.10.10:3306/pnpcxfmwhars
+	//	^db type     ^username    ^password     ^host     ^port   ^db name
+	var databaseURI = process.env['DUOSTACK_DB_MONGODB'],
+		parts = databaseURI.split(/[\/:@]/),
+		dbname = parts[7],
+		host = parts[5],
+		port = parts[6],
+		username = parts[3],
+		password = parts[4];
 	
 	server.use(express.session({
- 		secret: 'GHCMNNFTW',
-		store: new RedisStore({ maxAge: 300000 })
+		secret: 'GHCMNNFTW',
+		store: MongoDBStore({
+			dbname: dbname,
+			host: host,
+			port: port,
+			username: username,
+			password: password,
+			maxAge: 300000
+		})
 	}));
 	server.use(express.gzip());
 	server.use(assetManager({ 
