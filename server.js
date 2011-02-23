@@ -2,6 +2,7 @@ var http = require('http'),
 	express = require('express'),
 	assetManager = require('connect-assetmanager'),
 	CookieStore = require('cookie-sessions'),
+	RedisStore = require('connect-redis'),
 	fs = require('fs'),
 	Log = require('log'),
 	log = new Log();
@@ -72,6 +73,10 @@ server.configure('production', function() {
 	log.level = Log.WARNING;
 	log.stream = fs.createWriteStream('log/GitHubCommitMonitor.log', { flags: 'a' });
 	
+	server.use(express.session({
+ 		secret: 'GHCMNNFTW',
+		store: new RedisStore({ maxAge: 300000 })
+	}));
 	server.use(express.gzip());
 	server.use(assetManager({ 
 		css: { 
