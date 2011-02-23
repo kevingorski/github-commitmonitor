@@ -11,3 +11,4 @@ The code for each article is tagged with the title of that article.
 4. [Environmental Concerns - Part 1](http://nodenerd.net/post/2520686085/environmental-concerns-part-1) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Environmental_Concerns_-_Part_1)
 5. [Environmental Concerns - Part 2](http://nodenerd.net/post/2633372931/environmental-concerns-part-2) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Environmental_Concerns_-_Part_2)
 6. [Environmental Concerns - Part 3](http://nodenerd.net/post/3094182598/environmental-concerns-part-3) - No code!
+7. [Durable Sessions](http://nodenerd.net/post/3459644479) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Durable_Sessions)
