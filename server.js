@@ -85,7 +85,7 @@ server.configure('production', function() {
 	server.use(express.session({
 		secret: 'GHCMNNFTW',
 		store: MongoDBStore({
-			url: databaseURI
+			url: databaseURI,
 			// dbname: dbname,
 			// host: host,
 			// port: port,
