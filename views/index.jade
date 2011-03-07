@@ -22,7 +22,7 @@ form(method="post", action=".", enctype="application/x-www-form-urlencoded")
 
 - if(history.length)
 	h3 Recently Viewed
-	ol!= partial('history', {collection: history, as: global })
+	ol!= partial('partials/history', {collection: history, as: global })
 
 - var messages = flashMessages();
 - each message in messages

@@ -36,11 +36,11 @@ var handlePost = function(request, response) {
 			ghr.on('end', function() {
 				var data = JSON.parse(githubData);
 				
-				response.render('index', { locals: { posted: posted, commits: data.commits }});
+				response.render('index', { posted: posted, commits: data.commits });
 			});
 		} else {
 			request.flash('error', 'That user, repository, or branch doesn\'t seem to exist.');
-			response.render('index', { locals: { posted: posted, commits: [] }});
+			response.render('index', { posted: posted, commits: [] });
 			
 			log.warning('[GitHub] Response ' + ghr.statusCode + ' for ' + repoPath);
 		}
@@ -53,12 +53,12 @@ var handleGet = function(request, response) {
 	if(!request.session.history)
 		request.session.history = [];
 	
-	response.render('index', { locals: { posted: { Branch: 'master'}, commits: []}});
+	response.render('index', { posted: { Branch: 'master'}, commits: []});
 };
 
 var server = express.createServer(
-	express.bodyDecoder(),
-	express.cookieDecoder()
+	express.bodyParser(),
+	express.cookieParser()
 );
 	
 server.configure('development', function() {
@@ -66,7 +66,7 @@ server.configure('development', function() {
 
 	server.use(CookieStore({secret: 'GHCMNNFTW'}));
 	server.use(express.logger());
-	server.use(express.staticProvider({ root: __dirname + '/public', cache: true }));
+	server.use(express.static(__dirname + '/public'));
 });
 	
 server.configure('production', function() {
@@ -89,7 +89,7 @@ server.configure('production', function() {
 			route: /\/style.css/
 		}
 	}));
-	server.use(express.staticProvider({ root: __dirname + '/public', cache: true }));
+	server.use(express.staticProvider(__dirname + '/public', {maxAge: 86400000}));
 });
 	
 server.error(function(err, req, res){

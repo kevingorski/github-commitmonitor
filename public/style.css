@@ -58,3 +58,10 @@ ul li a {
 	font-size: .75em;
 	font-family: monospace;
 }
+
+
+section {
+	border: #DDD solid thin;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
