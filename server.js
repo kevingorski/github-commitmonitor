@@ -36,7 +36,12 @@ var handlePost = function(request, response) {
 			ghr.on('end', function() {
 				var data = JSON.parse(githubData);
 				
-				response.render('index', { posted: posted, commits: data.commits });
+				request.title = 'GitHub Commit Monitor: ' + repoPath;
+				
+				response.render('index', { 
+					posted: posted, 
+					commits: data.commits
+				});
 			});
 		} else {
 			request.flash('error', 'That user, repository, or branch doesn\'t seem to exist.');
@@ -104,6 +109,7 @@ server.dynamicHelpers({
 			return request.flash('error');
 		};
 	},
+	title: function(request) { return request.title || 'GitHub Commit Monitor'; },
 	history: function(request) { return request.session.history || []; }
 });
 server.set('views', __dirname + '/views');
