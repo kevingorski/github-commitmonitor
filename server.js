@@ -36,7 +36,11 @@ function getCommits(req, res, userName, repository, branch) {
 			});
 			
 			ghr.on('end', function() {
-				history.unshift(posted);
+				if(!history.length 
+					|| history[0].UserName != posted.UserName
+					|| history[0].Repository != posted.Repository
+					|| history[0].Branch != posted.Branch)
+					history.unshift(posted);
 
 				if(history.length > 3)
 					history.pop();
@@ -137,13 +141,13 @@ server.set('view engine', 'jade');
 // Routing
 server.get('/', handleGet);
 server.post('/', handlePost);
-server.get('/:UserName/:Repository/:Branch', function(req, res) {
+server.get('/:UserName/:Repository/:Branch?', function(req, res) {
 	getCommits(
 		req,
 		res,
 		req.params.UserName, 
 		req.params.Repository, 
-		req.params.Branch);
+		req.params.Branch || 'master');
 });
 
 
