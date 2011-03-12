@@ -7,58 +7,74 @@ var http = require('http'),
 	Log = require('log'),
 	log = new Log();
 
-var handlePost = function(request, response) {
-	var posted = request.body;
-	var history = request.session.history || [];
+function getCommits(req, res, userName, repository, branch) {
+	var history = req.session.history || [];
 	var github = http.createClient(80, 'github.com');
-	var repoPath = posted.UserName + '/'
-		+ posted.Repository + '/'
-		+ posted.Branch;
+	var repoPath = userName + '/'
+		+ repository + '/'
+		+ branch;
 	var ghRequest = github.request('GET', 
 		'/api/v2/json/commits/list/' + repoPath,
 		{'host': 'github.com'});
+	
+	// If we had to create a new array, assign it to the current session
+	if(!history.length) req.session.history = history;
 	
 	log.notice('[GitHub] Searching for ' + repoPath);
 	
 	ghRequest.on('response', function(ghr) {
 		if(ghr.statusCode == 200) {
-			var githubData = '';
-			
-			history.unshift(posted);
-			
-			if(history.length > 3)
-				history.pop();
-			
+			var githubData = '';			
+			var posted = {
+				'UserName': userName,
+				'Repository': repository,
+				'Branch': branch
+			};
+				
 			ghr.on('data', function(chunk) {
 				githubData += chunk;
 			});
 			
 			ghr.on('end', function() {
-				var data = JSON.parse(githubData);
-				
-				request.title = 'GitHub Commit Monitor: ' + repoPath;
-				
-				response.render('index', { 
+				history.unshift(posted);
+
+				if(history.length > 3)
+					history.pop();
+
+				req.title = 'GitHub Commit Monitor: ' + repoPath;
+
+				res.render('index', { 
 					posted: posted, 
-					commits: data.commits
+					commits: JSON.parse(githubData).commits
 				});
 			});
 		} else {
-			request.flash('error', 'That user, repository, or branch doesn\'t seem to exist.');
-			response.render('index', { posted: posted, commits: [] });
+			req.flash('error', 'That user, repository, or branch doesn\'t seem to exist.');
+			res.render('index', { posted: posted, commits: [] });
 			
 			log.warning('[GitHub] Response ' + ghr.statusCode + ' for ' + repoPath);
 		}
 	});
 	
 	ghRequest.end();
+}
+
+var handlePost = function(req, res) {
+	var posted = req.body;
+	
+	getCommits(
+		req,
+		res,
+		posted.UserName, 
+		posted.Repository, 
+		posted.Branch);
 };
 
-var handleGet = function(request, response) {
-	if(!request.session.history)
-		request.session.history = [];
+var handleGet = function(req, res) {
+	if(!req.session.history)
+		req.session.history = [];
 	
-	response.render('index', { posted: { Branch: 'master'}, commits: []});
+	res.render('index', { posted: { Branch: 'master'}, commits: []});
 };
 
 var server = express.createServer(
@@ -107,19 +123,29 @@ server.error(function(err, req, res){
 });
 
 server.dynamicHelpers({ 
-	flashMessages: function(request) { 
+	flashMessages: function(req) { 
 		return function() {
-			return request.flash('error');
+			return req.flash('error');
 		};
 	},
-	title: function(request) { return request.title || 'GitHub Commit Monitor'; },
-	history: function(request) { return request.session.history || []; }
+	title: function(req) { return req.title || 'GitHub Commit Monitor'; },
+	history: function(req) { return req.session.history || []; }
 });
 server.set('views', __dirname + '/views');
 server.set('view engine', 'jade');
 
+// Routing
 server.get('/', handleGet);
 server.post('/', handlePost);
+server.get('/:UserName/:Repository/:Branch', function(req, res) {
+	getCommits(
+		req,
+		res,
+		req.params.UserName, 
+		req.params.Repository, 
+		req.params.Branch);
+});
+
 
 server.listen(8124);
 
