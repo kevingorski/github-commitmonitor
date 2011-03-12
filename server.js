@@ -1,7 +1,7 @@
 var http = require('http'),
 	express = require('express'),
 	assetManager = require('connect-assetmanager'),
-	CookieStore = require('cookie-sessions'),
+	// CookieStore = require('cookie-sessions'),
 	MongoDBStore = require('connect-mongodb'),
 	fs = require('fs'),
 	Log = require('log'),
@@ -69,7 +69,10 @@ var server = express.createServer(
 server.configure('development', function() {
 	log.level = Log.INFO;
 
-	server.use(CookieStore({secret: 'GHCMNNFTW'}));
+	server.use(express.session({
+		secret: 'GHCMNNFTW'
+		// , store: CookieStore({secret: 'GHCMNNFTW'})
+	}));
 	server.use(express.logger());
 	server.use(express.static(__dirname + '/public'));
 });
