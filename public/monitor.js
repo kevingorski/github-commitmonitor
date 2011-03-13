@@ -11,6 +11,8 @@ var GHCMonitor = (function() {
 	function handleNewCommits(newCommits) {
 		var content = '';
 		
+		if(pendingCommits == 0) $('#MarkAllRead').show();
+		
 		pendingCommits += newCommits.length;
 		lastCommitId = newCommits[0].id;
 		
@@ -18,7 +20,7 @@ var GHCMonitor = (function() {
 			document.title = '(' + pendingCommits + ') GitHub Commit Monitor: ' + repoPath);
 		
 		$(newCommits).each(function() {
-			content += '<li data-commit-id="' + this.id + '">'
+			content += '<li data-commit-id="' + this.id + '" class="Unread">'
 				+ '<a href="http://github.com' + this.url + '">'
 					+ this.committed_date
 					+ '</a> - ' + this.author.name + ' : ' + this.message;
@@ -66,6 +68,17 @@ var GHCMonitor = (function() {
 				handleNewCommits(commits.slice(0, index));
 			}
 		});
+	}
+	
+	function markAllRead() {
+		pendingCommits = 0;
+		
+		$('h1').text(
+			document.title = 'GitHub Commit Monitor: ' + repoPath);
+
+		$('#Commits li.Unread').removeClass('Unread');
+		
+		$('#MarkAllRead').hide();
 	}
 	
 	function ISODateString(d){
@@ -124,14 +137,21 @@ var GHCMonitor = (function() {
 			branch = commitList.data('Branch');
 			repoPath = userName + '/' + repository + '/' + branch
 			
-			$('#ListCommits')
-				.after(
-					$('<input type="submit" value="Show Test Commit" />')
-						.click(function(event) {
-							generateFakeCommit();
-							
-							event.preventDefault();
-						}));
+			$('#ListCommits').after(
+				$('<input type="submit" value="Show Test Commit" />')
+					.click(function(event) {
+						generateFakeCommit();
+						
+						event.preventDefault();
+					}));
+			
+			$('#LastUpdated').after(
+				$('<a id="MarkAllRead" href="#">Mark all read</a>')
+					.click(function(event) {
+						markAllRead();
+						
+						event.preventDefault();
+					}).hide());
 
 			pollingHandle = setInterval(queryCommitLog, 10 * 1000);
 		}
