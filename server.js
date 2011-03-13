@@ -132,7 +132,7 @@ server.dynamicHelpers({
 		};
 	},
 	title: function(req) { return req.title || 'GitHub Commit Monitor'; },
-	history: function(req) { return req.session.history || []; }
+	history: function(req) { return req.session ? req.session.history || [] : []; }
 });
 server.set('views', __dirname + '/views');
 server.set('view engine', 'jade');
