@@ -41,7 +41,12 @@ input[type=submit] {
 	margin-left: 8em;
 }
 
-#commits {
+#LastUpdated {
+	font-style: italic;
+	margin-bottom: 1em;
+}
+
+#Commits {
 	background: #DDD;
 	padding: 1em 0 1em 2em;
 }

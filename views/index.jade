@@ -31,7 +31,7 @@ form(method="post", action="/", enctype="application/x-www-form-urlencoded")
 - if(commits.length)
 	a(href="http://github.com/" + posted.UserName + "/" + posted.Repository)
 		| #{posted.UserName}/#{posted.Repository}
-	ul#commits(data-UserName=posted.UserName, data-Repository=posted.Repository, data-Branch=posted.Branch)
+	ul#Commits(data-UserName=posted.UserName, data-Repository=posted.Repository, data-Branch=posted.Branch)
 		- each commit in commits
 			li(data-commit-id=commit.id)
 				a(href="http://github.com" + commit.url) #{commit.committed_date} 

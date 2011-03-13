@@ -9,11 +9,22 @@ var GHCMonitor = (function() {
 		pollingHandle;
 	
 	function handleNewCommits(newCommits) {
+		var content = '';
+		
 		pendingCommits += newCommits.length;
 		lastCommitId = newCommits[0].id;
 		
 		$('h1').text(
 			document.title = '(' + pendingCommits + ') GitHub Commit Monitor: ' + repoPath);
+		
+		$(newCommits).each(function() {
+			content += '<li data-commit-id="' + this.id + '">'
+				+ '<a href="http://github.com' + this.url + '">'
+					+ this.committed_date
+					+ '</a> - ' + this.author.name + ' : ' + this.message;
+		});
+		
+		$('#Commits').prepend(content);
 		
 		markUpdated();
 	}
@@ -57,6 +68,17 @@ var GHCMonitor = (function() {
 		});
 	}
 	
+	function ISODateString(d){
+		function pad(n){return n<10 ? '0'+n : n}
+		
+		return d.getUTCFullYear()+'-'
+			+ pad(d.getUTCMonth()+1)+'-'
+			+ pad(d.getUTCDate())+'T'
+			+ pad(d.getUTCHours())+':'
+			+ pad(d.getUTCMinutes())+':'
+			+ pad(d.getUTCSeconds())+'-00:00';
+	}
+	
 	function generateFakeCommit() {
 		// From: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
 		var id = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -69,14 +91,14 @@ var GHCMonitor = (function() {
 				"id": "e3be659a93ce0de359dd3e5c3b3b42ab53029065"
 			}],
 			"author": {
-				"name": "Ryan Tomayko",
-				"login": "rtomayko",
-				"email": "rtomayko@gmail.com"
+				"name": "Fake User",
+				"login": "fakelogin",
+				"email": "fake@email.com"
 			},
 			"url": "/" + userName + "/" + repository + "/commit/" + id,
 			"id": id,
-			"committed_date": "2010-12-09T13:50:17-08:00",
-			"authored_date": "2010-12-09T13:50:17-08:00",
+			"committed_date": ISODateString(new Date()),
+			"authored_date": ISODateString(new Date()),
 			"message": "Fake commit",
 			"tree": "a6a09ebb4ca4b1461a0ce9ee1a5b2aefe0045d5f",
 			"committer": {
@@ -91,7 +113,7 @@ var GHCMonitor = (function() {
 	
 	return {
 		init : function() {
-			var commitList = $('#commits'),
+			var commitList = $('#Commits'),
 				commitListItem = commitList.find('li:first');
 
 			if(!commitListItem.length) return;
