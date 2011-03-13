@@ -2,7 +2,7 @@ var http = require('http'),
 	express = require('express'),
 	assetManager = require('connect-assetmanager'),
 	// CookieStore = require('cookie-sessions'),
-	MongoDBStore = require('connect-mongo'),
+	// MongoDBStore = require('connect-mongodb'),
 	fs = require('fs'),
 	Log = require('log'),
 	log = new Log();
@@ -103,10 +103,10 @@ server.configure('production', function() {
 
 	server.use(express.session({
 		secret: 'GHCMNNFTW',
-		store: new MongoDBStore({
-			db: process.env['DUOSTACK_DB_MONGODB'],
-			maxAge: 300000
-		})
+		// store: MongoDBStore({
+		// 	url: process.env['DUOSTACK_DB_MONGODB'],
+		// 	maxAge: 300000
+		// })
 	}));
 	server.use(assetManager({ 
 		css: { 
