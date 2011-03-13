@@ -16,6 +16,6 @@
 	 "connect-assetmanager": "*",
 	 "log": "*",
 	"cookie-sessions": "*",
-	"connect-mongodb": "*"
+	"connect-mongo": "*"
   }
 }
