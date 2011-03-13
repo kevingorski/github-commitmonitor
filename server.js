@@ -108,7 +108,6 @@ server.configure('production', function() {
 			maxAge: 300000
 		})
 	}));
-	server.use(express.gzip());
 	server.use(assetManager({ 
 		css: { 
 			dataType: 'css',
