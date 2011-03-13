@@ -41,7 +41,7 @@ input[type=submit] {
 	margin-left: 8em;
 }
 
-ul {
+#commits {
 	background: #DDD;
 	padding: 1em 0 1em 2em;
 }

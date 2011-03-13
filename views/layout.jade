@@ -11,3 +11,7 @@ html(lang="en")
 			p
 				| GitHub Commit Monitor is an ongoing example project for 
 				| <a href="http://nodenerd.net">Node Nerd</a>.
+		script(src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js")
+		script(type='text/javascript')
+			if (!window.jQuery) { document.write('<script src="jquery-1.5.1.min.js"></' + 'script>'); }
+		script(src="monitor.js")
