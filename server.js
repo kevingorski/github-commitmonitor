@@ -116,7 +116,7 @@ server.configure('production', function() {
 			route: /\/style.css/
 		}
 	}));
-	server.use(express.staticProvider(__dirname + '/public', {maxAge: 86400000}));
+	server.use(express.static(__dirname + '/public', {maxAge: 86400000}));
 });
 	
 server.error(function(err, req, res){
