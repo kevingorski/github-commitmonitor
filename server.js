@@ -2,7 +2,7 @@ var http = require('http'),
 	express = require('express'),
 	assetManager = require('connect-assetmanager'),
 	// CookieStore = require('cookie-sessions'),
-	MongoDBStore = require('connect-mongodb'),
+	// MongoDBStore = require('connect-mongodb'),
 	fs = require('fs'),
 	Log = require('log'),
 	log = new Log();
@@ -103,10 +103,10 @@ server.configure('production', function() {
 
 	server.use(express.session({
 		secret: 'GHCMNNFTW',
-		store: MongoDBStore({
-			url: process.env['DUOSTACK_DB_MONGODB'],
-			maxAge: 300000
-		})
+		// store: MongoDBStore({
+		// 	url: process.env['DUOSTACK_DB_MONGODB'],
+		// 	maxAge: 300000
+		// })
 	}));
 	server.use(assetManager({ 
 		css: { 
@@ -122,8 +122,7 @@ server.configure('production', function() {
 server.error(function(err, req, res){
 	log.error(err);
 	
-	res.send(err);
-	// res.render('index', { posted: {}, commits: []});
+	res.render('index', { posted: {}, commits: []});
 });
 
 server.dynamicHelpers({ 
