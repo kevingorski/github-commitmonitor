@@ -11,7 +11,7 @@
     "node": "*"
   },
   "dependencies": {
-	 "express": "*",
+	 "express": "2.0.0beta3",
 	 "jade": "*",
 	 "connect-assetmanager": "*",
 	 "log": "*",
