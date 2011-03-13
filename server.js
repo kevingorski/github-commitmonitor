@@ -128,7 +128,7 @@ server.error(function(err, req, res){
 server.dynamicHelpers({ 
 	flashMessages: function(req) { 
 		return function() {
-			return req.flash('error');
+			return req ? [] : req.flash('error');
 		};
 	},
 	title: function(req) { return req.title || 'GitHub Commit Monitor'; },
