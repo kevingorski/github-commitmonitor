@@ -122,7 +122,7 @@ server.configure('production', function() {
 server.error(function(err, req, res){
 	log.error(err);
 	
-	res.render('index');
+	res.render('index', { posted: {}, commits: []});
 });
 
 server.dynamicHelpers({ 
