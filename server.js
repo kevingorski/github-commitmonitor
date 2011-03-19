@@ -8,15 +8,20 @@ var http = require('http'),
 	log = new Log();
 
 function getCommits(req, res, userName, repository, branch) {
-	var history = req.session.history || [];
-	var github = http.createClient(80, 'github.com');
-	var repoPath = userName + '/'
-		+ repository + '/'
-		+ branch;
-	var ghRequest = github.request('GET', 
-		'/api/v2/json/commits/list/' + repoPath,
-		{'host': 'github.com'});
-	
+	var history = req.session.history || [],
+		github = http.createClient(80, 'github.com'),
+		repoPath = userName + '/'
+			+ repository + '/'
+			+ branch,
+		ghRequest = github.request('GET', 
+			'/api/v2/json/commits/list/' + repoPath,
+			{'host': 'github.com'}),
+		posted = {
+			'UserName': userName,
+			'Repository': repository,
+			'Branch': branch
+		};
+		
 	// If we had to create a new array, assign it to the current session
 	if(!history.length) req.session.history = history;
 	
@@ -24,12 +29,7 @@ function getCommits(req, res, userName, repository, branch) {
 	
 	ghRequest.on('response', function(ghr) {
 		if(ghr.statusCode == 200) {
-			var githubData = '';			
-			var posted = {
-				'UserName': userName,
-				'Repository': repository,
-				'Branch': branch
-			};
+			var githubData = '';
 				
 			ghr.on('data', function(chunk) {
 				githubData += chunk;
