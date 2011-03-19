@@ -103,6 +103,8 @@ server.configure('production', function() {
 	
 	log.level = Log.WARNING;
 	log.stream = fs.createWriteStream('log/GitHubCommitMonitor.log', { flags: 'a' });
+	
+	log.error(process.env['DUOSTACK_DB_MONGODB']);
 
 	server.use(express.session({
 		secret: 'GHCMNNFTW',
@@ -128,13 +130,13 @@ server.configure('production', function() {
 server.error(function(err, req, res){
 	log.error(err);
 	
-//	res.render('index', { posted: {}, commits: []});
+	res.render('index', { posted: {}, commits: []});
 });
 
 server.dynamicHelpers({ 
 	flashMessages: function(req) { 
 		return function() {
-			return req ? [] : req.flash('error');
+			return req.flash('error');
 		};
 	},
 	title: function(req) { return req.title || 'GitHub Commit Monitor'; },

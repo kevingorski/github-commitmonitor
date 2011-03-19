@@ -15,7 +15,6 @@
 	 "jade": "*",
 	 "connect-assetmanager": "*",
 	 "log": "*",
-	"cookie-sessions": "*",
 	"connect-mongodb": "*"
   }
 }
