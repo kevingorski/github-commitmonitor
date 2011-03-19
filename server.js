@@ -125,11 +125,11 @@ server.configure('production', function() {
 	server.use(express.static(__dirname + '/public', {maxAge: 86400000}));
 });
 	
-// server.error(function(err, req, res){
-// 	log.error(err);
-// 	
-// 	res.render('index', { posted: {}, commits: []});
-// });
+server.error(function(err, req, res){
+	log.error(err);
+	
+	res.render('index', { posted: {}, commits: []});
+});
 
 server.dynamicHelpers({ 
 	flashMessages: function(req) { 
