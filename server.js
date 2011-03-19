@@ -103,7 +103,7 @@ server.configure('production', function() {
 
 	server.use(express.session({
 		secret: 'GHCMNNFTW',
-		, store: new MongoStore({
+		store: new MongoStore({
 			db: process.env['DUOSTACK_DB_MONGODB']
 		})
 	}));
