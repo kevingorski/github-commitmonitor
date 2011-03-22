@@ -15,6 +15,6 @@
 	 "jade": "*",
 	 "connect-assetmanager": "*",
 	 "log": "*",
-	"connect-mongodb": "*"
+	"connect-mongo": "*"
   }
 }
