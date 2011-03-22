@@ -1,7 +1,6 @@
 var http = require('http'),
 	express = require('express'),
 	assetManager = require('connect-assetmanager'),
-	// CookieStore = require('cookie-sessions'),
 	MongoStore = require('connect-mongo'),
 	fs = require('fs'),
 	Log = require('log'),
@@ -91,7 +90,6 @@ server.configure('development', function() {
 
 	server.use(express.session({
 		secret: 'GHCMNNFTW'
-		// , store: CookieStore({secret: 'GHCMNNFTW'})
 	}));
 	server.use(express.logger());
 	server.use(express.static(__dirname + '/public'));
@@ -103,8 +101,6 @@ server.configure('production', function() {
 	
 	log.level = Log.WARNING;
 	log.stream = fs.createWriteStream('log/GitHubCommitMonitor.log', { flags: 'a' });
-	
-	console.log(process.env['DUOSTACK_DB_MONGODB']);
 
 	server.use(express.session({
 		secret: 'GHCMNNFTW',
@@ -128,7 +124,7 @@ server.configure('production', function() {
 });
 	
 server.error(function(err, req, res){
-	console.log(err);
+	log.error(err);
 	
 	res.render('index', { posted: {}, commits: []});
 });
