@@ -10,7 +10,7 @@ exports.addConfiguration = function(server, log) {
 		var db_uri = parseUrl(process.env['DUOSTACK_DB_MONGODB']);
 	
 		log.level = Log.WARNING;
-		log.stream = fs.createWriteStream('../log/GitHubCommitMonitor.log', { flags: 'a' });
+		log.stream = fs.createWriteStream('log/GitHubCommitMonitor.log', { flags: 'a' });
 
 		server.use(express.session({
 			secret: 'GHCMNNFTW',
@@ -25,7 +25,7 @@ exports.addConfiguration = function(server, log) {
 		server.use(assetManager({ 
 			css: { 
 				dataType: 'css',
-				path: __dirname + '../public/',
+				path: __dirname + 'public/',
 				files: ['style.css'],
 				route: /\/style.css/
 			}
