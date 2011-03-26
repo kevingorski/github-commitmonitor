@@ -1,5 +1,6 @@
 var express = require('express'),
 	Log = require('log'),
+	assetManager = require('connect-assetmanager'),
 	MongoStore = require('connect-mongo'),
 	parseUrl = require('url').parse,
 	fs = require('fs');

@@ -1,6 +1,5 @@
 var http = require('http'),
 	express = require('express'),
-	assetManager = require('connect-assetmanager'),
 	Log = require('log'),
 	log = new Log(),
 	commits = require('./commits'),
