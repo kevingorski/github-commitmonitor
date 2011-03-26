@@ -1,5 +1,6 @@
 var express = require('express'),
 	Log = require('log'),
+	MongoStore = require('connect-mongo'),
 	parseUrl = require('url').parse,
 	fs = require('fs');
 
