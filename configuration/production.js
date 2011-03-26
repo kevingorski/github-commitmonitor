@@ -1,5 +1,6 @@
 var express = require('express'),
 	Log = require('log'),
+	path = require('path'),
 	assetManager = require('connect-assetmanager'),
 	MongoStore = require('connect-mongo'),
 	parseUrl = require('url').parse,
@@ -25,7 +26,7 @@ exports.addConfiguration = function(server, log) {
 		server.use(assetManager({ 
 			css: { 
 				dataType: 'css',
-				path: __dirname + 'public/',
+				path: path.normalize(__dirname + '/../public/'),
 				files: ['style.css'],
 				route: /\/style.css/
 			}
