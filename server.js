@@ -2,9 +2,11 @@ var http = require('http'),
 	express = require('express'),
 	assetManager = require('connect-assetmanager'),
 	MongoStore = require('connect-mongo'),
-	fs = require('fs'),
 	Log = require('log'),
-	log = new Log();
+	log = new Log(),
+	development = require('./configuration/development'),
+	production = require('./configuration/production');
+
 
 function getCommits(req, res, userName, repository, branch) {
 	var history = req.session.history || [],
@@ -84,45 +86,13 @@ var server = express.createServer(
 	express.bodyParser(),
 	express.cookieParser()
 );
-	
-server.configure('development', function() {
-	log.level = Log.INFO;
 
-	server.use(express.session({
-		secret: 'GHCMNNFTW'
-	}));
-	server.use(express.logger());
-	server.use(express.static(__dirname + '/public'));
-});
+// Server Configuration	
+development.addConfiguration(server, log);
+production.addConfiguration(server, log);
 	
-server.configure('production', function() {
-	var parseUrl = require('url').parse,
-		db_uri = parseUrl(process.env['DUOSTACK_DB_MONGODB']);
-	
-	log.level = Log.WARNING;
-	log.stream = fs.createWriteStream('log/GitHubCommitMonitor.log', { flags: 'a' });
+server.use(express.static(__dirname + '/public'));
 
-	server.use(express.session({
-		secret: 'GHCMNNFTW',
-		store: new MongoStore({
-			db: db_uri.pathname.substr(1),
-			host: db_uri.hostname,
-			port: parseInt(db_uri.port),
-			username: db_uri.auth.split(':')[0],
-			password: db_uri.auth.split(':')[1]
-		})
-	}));
-	server.use(assetManager({ 
-		css: { 
-			dataType: 'css',
-			path: __dirname + '/public/',
-			files: ['style.css'],
-			route: /\/style.css/
-		}
-	}));
-	server.use(express.static(__dirname + '/public', {maxAge: 86400000}));
-});
-	
 server.error(function(err, req, res){
 	log.error(err);
 	
@@ -138,6 +108,7 @@ server.dynamicHelpers({
 	title: function(req) { return req.title || 'GitHub Commit Monitor'; },
 	history: function(req) { return req.session ? req.session.history || [] : []; }
 });
+
 server.set('views', __dirname + '/views');
 server.set('view engine', 'jade');
 
