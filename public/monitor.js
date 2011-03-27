@@ -138,7 +138,7 @@ var GHCMonitor = (function() {
 			repoPath = userName + '/' + repository + '/' + branch
 			
 			$('#ListCommits').after(
-				$('<input type="submit" value="Show Test Commit" />')
+				$('<input id="ShowTestCommit" type="submit" value="Show Test Commit" />')
 					.click(function(event) {
 						generateFakeCommit();
 						

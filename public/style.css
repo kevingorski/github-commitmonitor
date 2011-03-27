@@ -4,13 +4,14 @@ body, input { font-family: helvetica, arial, freesans, clean, sans-serif; }
 h1 {  }
 
 footer {
+	clear: both;
 	font-size: smaller;
 	font-style: italic;
 }
 
 form { clear: both; }
 
-fieldset { padding: 2em; width: 24em; }
+fieldset { padding: 2em; width: 26em; }
 
 fieldset div {
 	clear: both;
@@ -31,6 +32,7 @@ input {
 input[type=text] {
 	display: block;
 	font-size: 1em;
+	width: 16em;
 }
 
 input[type=button],
@@ -42,6 +44,11 @@ input[type=submit] {
 	font-size: 1em;
 	margin-left: 8em;
 }
+
+input[type=button] { float: left; }
+
+#ListCommits { clear: left; }
+#ShowTestCommit { clear: none; margin-left: 1em; }
 
 #LastUpdated {
 	float: left;
@@ -107,3 +114,5 @@ ul li,
 }
 
 .Commit { float:right; margin: 0 1em 1em; }
+
+.Message { width: 50em; }
