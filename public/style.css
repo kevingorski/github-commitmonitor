@@ -51,7 +51,7 @@ input[type=submit] {
 
 #Commits {
 	background: #DDD;
-	padding: 1em 0 1em 2em;
+	padding: 1em 2em;
 }
 
 #Commits .Unread {
@@ -59,21 +59,51 @@ input[type=submit] {
 }
 
 ul li {
+	border-bottom: 1px black dashed;
+	clear: both;
 	list-style: none;
+	padding: 1em 0;
+	width: 100%;
 }
 
 ul li:hover {
 	background: #EEE;
 }
 
-ul li a {
-	font-size: .75em;
-	font-family: monospace;
-}
-
-
 section {
 	border: #DDD solid thin;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 }
+
+ul,
+ul li,
+.Author,
+.Author img,
+.Committer {
+	float: left;
+}
+
+.Author img.Profile { margin: 0 1em 1em 0; }
+
+.Author,
+.Commit {
+	font-size: .75em;
+}
+
+.Author {
+	background-color: #CCC;
+	margin-right: 1em;
+	padding: 1em;
+	width: 200px;
+}
+
+.CommitterProfile {
+	position: relative;
+	left: -2.5em;
+	top: 2.5em;
+	display: inline;
+	margin-right: -2.5em;
+}
+
+.Commit { float:right; margin: 0 1em 1em; }

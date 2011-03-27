@@ -2,6 +2,7 @@ var http = require('http'),
 	express = require('express'),
 	Log = require('log'),
 	log = new Log(),
+	gravatar = require('gravatar'),
 	commits = require('./commits'),
 	development = require('./configuration/development'),
 	production = require('./configuration/production');
@@ -40,7 +41,24 @@ server.dynamicHelpers({
 		};
 	},
 	title: function(req) { return req.title || 'GitHub Commit Monitor'; },
-	history: function(req) { return req.session ? req.session.history || [] : []; }
+	history: function(req) { return req.session ? req.session.history || [] : []; },
+	getGravatar: function() { 
+		return function(email) {
+			return gravatar.url(email, {s:'50', d:'mm', r:'pg'});
+		};
+	},
+	reformatDate: function() {
+		function pad(number) {
+			return number > 9 ? number : '0' + number;
+		};
+		
+		return function(dateString) {
+			var date = new Date(dateString);
+			
+			return date.getFullYear() + '-' + pad(date.getMonth()) + '-' + pad(date.getDate()) + ' ' + 
+				pad(date.getHours()) + ':' + pad(date.getMinutes());
+		};
+	}
 });
 
 

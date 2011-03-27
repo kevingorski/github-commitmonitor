@@ -34,5 +34,20 @@ form(method="post", action="/", enctype="application/x-www-form-urlencoded")
 	ul#Commits(data-UserName=posted.UserName, data-Repository=posted.Repository, data-Branch=posted.Branch)
 		- each commit in commits
 			li(data-commit-id=commit.id)
-				a(href="http://github.com" + commit.url) #{commit.committed_date} 
-				\- #{commit.author.name} : #{commit.message}
+				.Commit
+					a(href="http://github.com" + commit.url)
+						#{commit.id.substr(0,7)}
+					.Date #{reformatDate(commit.committed_date)}
+				.Author
+					a(href="http://github.com/" + commit.author.login)
+						img.Profile(src=getGravatar(commit.author.email), alt=commit.author.name, width=50)
+						- if(commit.author.login !== commit.committer.login)
+							img.CommitterProfile(src=getGravatar(commit.committer.email), alt=commit.committer.name, width=25)
+						#{commit.author.name}
+					\(author)
+					- if(commit.author.login !== commit.committer.login)
+						.Committer
+							a(href="http://github.com/" + commit.committer.login)
+								#{commit.committer.name}
+							\(committer)
+				.Message #{commit.message}
