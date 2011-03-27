@@ -21,9 +21,18 @@ var GHCMonitor = (function() {
 		
 		$(newCommits).each(function() {
 			content += '<li data-commit-id="' + this.id + '" class="Unread">'
-				+ '<a href="http://github.com' + this.url + '">'
-					+ this.committed_date
-					+ '</a> - ' + this.author.name + ' : ' + this.message;
+				+ '<div class="Commit">'
+					+ '<a href="http://github.com' + this.url + '">' + this.id.substr(0,7) + '</a>'
+					+ '<div class="Date">' + this.committed_date + '</div>'
+				+ '</div>'
+				+ '<div class="Author">'
+					+ '<a href="http://github.com/' + this.author.login + '">'
+						+ '<img class="Profile" src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm" alt="' + this.author.name + '" width="50" />'
+						+ this.author.name 
+					+ '</a>'
+					+ '(author)'
+				+ '</div>'
+				+ '<div class="Message">' + this.message + '</div></li>';
 		});
 		
 		$('#Commits').prepend(content);

@@ -62,7 +62,11 @@ input[type=button] { float: left; }
 }
 
 #Commits .Unread {
-	background: #EEE;
+	background: hsl(60, 85%, 50%);
+}
+
+#Commits .Unread .Author {
+	background: hsl(60, 65%, 50%);
 }
 
 ul li {
