@@ -23,14 +23,20 @@ var GHCMonitor = (function() {
 			content += '<li data-commit-id="' + this.id + '" class="Unread">'
 				+ '<div class="Commit">'
 					+ '<a href="http://github.com' + this.url + '">' + this.id.substr(0,7) + '</a>'
-					+ '<div class="Date">' + this.committed_date + '</div>'
+					+ '<div class="Date">' + reformatDate(this.committed_date) + '</div>'
 				+ '</div>'
 				+ '<div class="Author">'
 					+ '<a href="http://github.com/' + this.author.login + '">'
-						+ '<img class="Profile" src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm" alt="' + this.author.name + '" width="50" />'
+						+ '<img class="Profile" src="' + getGravatar(this.author.email) + '" alt="' + this.author.name + '" width="50" />'
+						+ ((this.author.login !== this.committer.login)
+							? '<img class="CommitterProfile" src="' + getGravatar(this.committer.email) + '" alt="' + this.committer.name + '" width="25" />'
+							: '')
 						+ this.author.name 
 					+ '</a>'
 					+ '(author)'
+					+ ((this.author.login !== this.committer.login)
+						? '<div class="Committer"><a href="http://github.com/' + this.committer.login + '">' + this.committer.name + '</a> (committer)</div>'
+						: '')
 				+ '</div>'
 				+ '<div class="Message">' + this.message + '</div></li>';
 		});
@@ -38,6 +44,10 @@ var GHCMonitor = (function() {
 		$('#Commits').prepend(content);
 		
 		markUpdated();
+	}
+	
+	function getGravatar(email) {
+		return 'http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm';
 	}
 	
 	function markUpdated() {
@@ -90,9 +100,9 @@ var GHCMonitor = (function() {
 		$('#MarkAllRead').hide();
 	}
 	
+	function pad(n){return n<10 ? '0'+n : n}
+	
 	function ISODateString(d){
-		function pad(n){return n<10 ? '0'+n : n}
-		
 		return d.getUTCFullYear()+'-'
 			+ pad(d.getUTCMonth()+1)+'-'
 			+ pad(d.getUTCDate())+'T'
@@ -100,6 +110,13 @@ var GHCMonitor = (function() {
 			+ pad(d.getUTCMinutes())+':'
 			+ pad(d.getUTCSeconds())+'-00:00';
 	}
+	
+	function reformatDate(dateString) {
+		var date = new Date(dateString);
+		
+		return date.getFullYear() + '-' + pad(date.getMonth()) + '-' + pad(date.getDate()) + ' ' + 
+			pad(date.getHours()) + ':' + pad(date.getMinutes());
+	};
 	
 	function generateFakeCommit() {
 		// From: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
@@ -124,9 +141,9 @@ var GHCMonitor = (function() {
 			"message": "Fake commit",
 			"tree": "a6a09ebb4ca4b1461a0ce9ee1a5b2aefe0045d5f",
 			"committer": {
-				"name": "Fake User",
-				"login": "fakelogin",
-				"email": "fake@email.com"
+				"name": "Different User",
+				"login": "differentlogin",
+				"email": "different@email.com"
 			}
 		});
 		
