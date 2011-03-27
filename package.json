@@ -15,6 +15,7 @@
 	 "jade": "*",
 	 "connect-assetmanager": "*",
 	 "log": "*",
-	"connect-mongo": "*"
+	"connect-mongo": "*",
+	"gravatar": "*"
   }
 }
