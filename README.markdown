@@ -13,3 +13,4 @@ The code for each article is tagged with the title of that article.
 6. [Environmental Concerns - Part 3](http://nodenerd.net/post/3094182598/environmental-concerns-part-3) - No code!
 7. [Durable Sessions](http://nodenerd.net/post/3459644479) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Durable_Sessions)
 8. [Client-side Monitoring](http://nodenerd.net/post/3847003578/client-side-monitoring) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Client_Side_Monitoring)
+9. [Loose Ends](http://nodenerd.net/post/4174914740/github-commit-monitor-loose-ends) - [Tag](https://github.com/kevingorski/github-commitmonitor/tree/Loose_Ends)
