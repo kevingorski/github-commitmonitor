@@ -47,6 +47,7 @@ var GHCMonitor = (function() {
 	}
 	
 	function getGravatar(email) {
+		// Force the unknown avatar for now
 		return 'http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm';
 	}
 	

@@ -69,6 +69,11 @@ input[type=button] { float: left; }
 	background: hsl(60, 65%, 50%);
 }
 
+#RepositoryLink {
+	clear: both;
+	display: block;
+}
+
 ul li {
 	border-bottom: 1px black dashed;
 	clear: both;
