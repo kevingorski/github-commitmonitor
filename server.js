@@ -68,6 +68,6 @@ server.post('/', commits.post);
 server.get('/:UserName/:Repository/:Branch?', commits.detail);
 
 
-server.listen(8124);
+server.listen(8080);
 
-log.info('Server running at http://127.0.0.1:8124/');
+log.info('Server running...');
