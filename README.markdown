@@ -1,6 +1,6 @@
 GitHub Commit Monitor is an example project for progressively teaching how to use Node.js as a web server for the [Node Nerd blog](http://nodenerd.net/).
 
-The latest version of the code is running at [http://githubcm.duostack.net/](http://githubcm.duostack.net/).
+The latest version of the code is running at [http://www.githubcm.dotcloud.com/](http://www.githubcm.dotcloud.com/).
 
 The code for each article is tagged with the title of that article.
 
